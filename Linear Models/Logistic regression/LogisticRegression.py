@@ -6,12 +6,13 @@ def sigmoid(x):
     return 1 / (1 + np.exp(-x))
 
 
-class LinearRegression:
+class LogisticRegression:
 
     def __init__(self):
         self.weights = None
         self.bias = 0
         self.lr = 0.001
+        self.history = []
 
     def train(self, x: np.ndarray, y: np.ndarray, iter_limit = 1000, lr = 0.001):
 
@@ -26,7 +27,8 @@ class LinearRegression:
             linpred = np.dot(x, self.weights) + self.bias
             pred = sigmoid(linpred)
 
-            grad_step = np.dot(x.T, pred - y) / n_examples
+            grad_step = np.dot(x.T, (pred - y)) / n_examples
+            self.history.append(np.linalg.norm(pred-y, 2))
 
             old_theta = self.weights
 
